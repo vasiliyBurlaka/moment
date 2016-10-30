@@ -1,5 +1,6 @@
 import { normalizeObjectUnits } from '../units/aliases';
 import { getLocale } from '../locale/locales';
+import extend from '../utils/extend';
 
 export function Duration (duration) {
     var normalizedInput = normalizeObjectUnits(duration),
@@ -13,6 +14,11 @@ export function Duration (duration) {
         seconds = normalizedInput.second || 0,
         milliseconds = normalizedInput.millisecond || 0;
 
+    if (isDuration(duration)) {
+        copyDuration(this, duration);
+        return this;
+    }
+
     // representation for dateAddRemove
     this._milliseconds = +milliseconds +
         seconds * 1e3 + // 1000
@@ -22,7 +28,7 @@ export function Duration (duration) {
     // day when working around DST, we need to store them separately
     this._days = +days +
         weeks * 7;
-    // It is impossible translate months into days without knowing
+    // It is impossible to translate months into days without knowing
     // which months you are are talking about, so we have to store
     // it separately.
     this._months = +months +
@@ -41,4 +47,12 @@ export function Duration (duration) {
 
 export function isDuration (obj) {
     return obj instanceof Duration;
+}
+
+function copyDuration(to, from) {
+    to._milliseconds = from._milliseconds;
+    to._days = from._days;
+    to._months = from._months;
+    to._data = extend({}, from._data);
+    to._locale = from._locale;
 }

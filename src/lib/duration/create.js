@@ -23,11 +23,7 @@ export function createDuration (input, key) {
         diffRes;
 
     if (isDuration(input)) {
-        duration = {
-            ms : input._milliseconds,
-            d  : input._days,
-            M  : input._months
-        };
+        duration = input;
     } else if (typeof input === 'number') {
         duration = {};
         if (key) {
