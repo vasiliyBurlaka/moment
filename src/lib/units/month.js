@@ -35,10 +35,6 @@ addFormatToken('MMMM', 0, 0, function (format) {
 
 addUnitAlias('month', 'M');
 
-// PRIORITY
-
-addUnitPriority('month', 8);
-
 // PARSING
 
 addRegexToken('M',    match1to2);
@@ -278,3 +274,7 @@ function computeMonthsParse () {
     this._monthsStrictRegex = new RegExp('^(' + longPieces.join('|') + ')', 'i');
     this._monthsShortStrictRegex = new RegExp('^(' + shortPieces.join('|') + ')', 'i');
 }
+
+// PRIORITY
+
+addUnitPriority('month', 8, getSetMonth);
